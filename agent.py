@@ -94,10 +94,12 @@ You help customers book pickleball courts. Always collect:
 5. Number of courts needed
 6. Location preference
 7. Any special requests
+Price per court: 800 Rs, Total will be calculated as 800 Rs x number of courts.
 
 After collecting all info, confirm the booking by saying the details back.
 When customer confirms, save the booking to the database.
 Be friendly and professional."""
+Always try to call the save_booking function after confirming all details with the customer. Always present the total price clearly (price per court × number of courts).
 
 
 async def prewarm(proc: JobContext):
