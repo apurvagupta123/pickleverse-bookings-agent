@@ -8,8 +8,68 @@ from livekit.agents import (
     WorkerOptions,
     cli,
     llm,
-)
-from livekit.agents.voice_assistant import VoiceAssistant
+    function_tool,
+# Function tools for the agent
+
+
+@function_tool()
+def save_booking_func(customer_name: str, phone_number: str, booking_date: str, 
+                                            booking_time: str, number_of_courts: int, location_preference: str, 
+                                            special_requests: str = "", price_per_court: float = 800.0) -> str:
+                                                    """Save a booking to Google Sheets"""
+                                                    try:
+                                                                booking_data = {
+                                                                                'customer_name': customer_name,
+                                                                                'phone_number': phone_number,
+                                                                                'booking_date': booking_date,
+                                                                                'booking_time': booking_time,
+                                                                                'number_of_courts': number_of_courts,
+                                                                                'location': location_preference,
+                                                                                'preference': location_preference,
+                                                                                'special_requests': special_requests,
+                                                                                'price_per_court': price_per_court,
+                                                                                'total_price': price_per_court * number_of_courts,
+                                                                                'booking_status': 'Confirmed'
+                                                                }
+
+        if sheets_manager.add_booking(booking_data):
+                        return f"Booking saved for {customer_name} on {booking_date} at {booking_time}"
+        else:
+                        return "Failed to save booking"
+except Exception as e:
+        logger.error(f"Error saving booking: {str(e)}")
+        return f"Error: {str(e)}"
+
+
+@function_tool()
+def check_availability_func(booking_date: str, booking_time: str, location_preference: str) -> str:
+        """Check if courts are available"""
+        try:
+                    is_available = sheets_manager.check_availability(booking_date, booking_time, location_preference)
+                    if is_available:
+                                    return f"Courts available on {booking_date} at {booking_time}"
+                    else:
+                                    return f"Courts not available on {booking_date} at {booking_time}"
+        except Exception as e:
+                    return f"Error: {str(e)}"
+
+
+@function_tool()
+def get_booking_history_func(phone_number: str) -> str:
+        """Retrieve customer booking history"""
+        try:
+                    bookings = sheets_manager.get_bookings(filters={'phone_number': phone_number})
+                    if bookings:
+                                    booking_list = "\n".join([f"- {b['booking_date']} at {b['booking_time']}: {b['number_of_courts']} courts" for b in bookings])
+                                    return f"Previous bookings:\n{booking_list}"
+                    else:
+                                    return "No previous bookings found"
+        except Exception as e:
+                    return f"Error: {str(e)}"
+
+
+async def prewarm
+await assistant.start(ctx)from livekit.agents.voice_assistant import VoiceAssistant
 from livekit.plugins import silero, openai
 from sheets_manager import GoogleSheetsManager
 
