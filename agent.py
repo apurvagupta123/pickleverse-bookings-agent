@@ -123,6 +123,11 @@ async def entrypoint(ctx: JobContext):
                 ctx=initial_ctx,
     )
 
+    # Register function tools with the assistant
+    assistant.register_function_tool(save_booking_func)
+    assistant.register_function_tool(check_availability_func)
+    assistant.register_function_tool(get_booking_history_func)
+
     await assistant.start(ctx)
 
 
