@@ -1,5 +1,6 @@
 """LiveKit Voice Agent - Lovable Integration"""
 import os, logging
+from datetime import datetime, timedelta
 from livekit.agents import AutoSubscribe, JobContext, WorkerOptions, cli, llm, function_tool
 from livekit.agents.voice_assistant import VoiceAssistant
 from livekit.plugins import silero, openai
@@ -15,6 +16,15 @@ Price: 800 Rs per court. Check availability, create customer, save booking."""
 
 @function_tool()
 def check_availability_func(booking_date: str) -> str:
+        try:
+                    # Parse date if it's in natural language format
+                    if booking_date.lower() in ['today']:
+                                    booking_date = datetime.now().strftime('%Y-%m-%d')
+                    elif booking_date.lower() in ['tomorrow']:
+                                    booking_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+                    elif '-' not in booking_date:
+                                    # Try to convert natural language date to YYYY-MM-DD
+                                    booking_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
     courts = lovable_manager.check_availability(booking_date)
     if not courts: return f"No courts available on {booking_date}"
     return f"Available courts on {booking_date}: {len(courts)} courts with slots"
