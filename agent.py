@@ -8,7 +8,7 @@ from livekit.agents import (
     cli,
     llm,
 )
-from livekit.agents.voice_assistant import VoiceAssistant
+from livekit.agents import VoiceAssistant
 from livekit.plugins import silero, openai
 
 logging.basicConfig(level=logging.INFO)
