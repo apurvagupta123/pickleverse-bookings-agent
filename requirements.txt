@@ -1,5 +1,6 @@
-supabase>=2.0.0
+livekit>=0.8.0
 livekit-agents>=0.1.0
 livekit-plugins-openai>=0.1.0
 livekit-plugins-silero>=0.1.0
+supabase>=2.0.0
 python-dotenv>=1.0.0
