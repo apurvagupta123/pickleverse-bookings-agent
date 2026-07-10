@@ -1,3 +1,4 @@
+supabase
 livekit
 livekit-agents
 livekit-plugins-silero
