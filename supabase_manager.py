@@ -1,12 +1,13 @@
 """Supabase Database Manager for Court Bookings"""
 from supabase import create_client
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
-# Initialize Supabase connection
-SUPABASE_URL = "https://djtachdauckqkjhoogqv.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqdGFjaGRhdWNrcWtqaG9vZ3F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2OTY4MDEsImV4cCI6MjA5OTI3MjgwMX0.PhyCHrB4thHdvFGj4fuFme9mjonx2ELYvdcuAqhkEjE"
+# Initialize Supabase connection from environment variables
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
