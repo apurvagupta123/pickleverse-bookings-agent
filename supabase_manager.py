@@ -9,7 +9,11 @@ logger = logging.getLogger(__name__)
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
 
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+# Debug: Log if credentials are missing
+if not SUPABASE_URL or not SUPABASE_KEY:
+    logger.error(f"Missing Supabase credentials! URL: {SUPABASE_URL}, KEY: {SUPABASE_KEY}")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL and SUPABASE_KEY else None
 
 class SupabaseManager:
     """Manages all Supabase database operations"""
